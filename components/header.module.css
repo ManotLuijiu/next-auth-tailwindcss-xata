@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern */
+
 /* Set min-height to avoid page reflow while session loading */
 .signedInStatus {
   display: block;
@@ -9,18 +11,19 @@
 .loaded {
   position: relative;
   top: 0;
-  opacity: 1;
+  opacity: 100%;
   overflow: hidden;
   border-radius: 0 0 0.6rem 0.6rem;
   padding: 0.6rem 1rem;
   margin: 0;
-  background-color: rgba(0, 0, 0, 0.05);
+  /* stylelint-disable-next-line color-function-notation */
+  background-color: rgba(0, 0, 0, 5%);
   transition: all 0.2s ease-in;
 }
 
 .loading {
   top: -2rem;
-  opacity: 0;
+  opacity: 0%;
 }
 
 .signedInText,
@@ -38,7 +41,7 @@
 }
 
 .signedInText {
-  padding-top: 0rem;
+  padding-top: 0;
   left: 4.6rem;
 }
 
@@ -77,7 +80,8 @@
 }
 
 .buttonPrimary:hover {
-  box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.2);
+  /* stylelint-disable-next-line color-function-notation */
+  box-shadow: inset 0 0 5rem rgba(0, 0, 0, 20%);
 }
 
 .navItems {

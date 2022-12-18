@@ -6,6 +6,7 @@ import type { GetServerSidePropsContext } from "next"
 import type { Session } from "next-auth"
 
 export default function ServerSidePage({ session }: { session: Session }) {
+  console.log('server.tsx', session);
   // As this page uses Server Side Rendering, the `session` will be already
   // populated on render without needing to go through a loading stage.
   return (
@@ -16,7 +17,7 @@ export default function ServerSidePage({ session }: { session: Session }) {
         in <strong>getServerSideProps()</strong>.
       </p>
       <p>
-        Using <strong>unstable_getServerSession()</strong> in{" "}
+        Using <strong>unstable_getServerSession()</strong> in{' '}
         <strong>getServerSideProps()</strong> is the recommended approach if you
         need to support Server Side Rendering with authentication.
       </p>
@@ -30,18 +31,40 @@ export default function ServerSidePage({ session }: { session: Session }) {
       </p>
       <pre>{JSON.stringify(session, null, 2)}</pre>
     </Layout>
-  )
+  );
 }
 
 // Export the `session` prop to use sessions with Server Side Rendering
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  console.log('server.tsx getSSP+unstable', session);
+
+  if (!session) {
+    console.log('no session from server');
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
-      session: await unstable_getServerSession(
-        context.req,
-        context.res,
-        authOptions
-      ),
+      session,
     },
-  }
+  };
+  // return {
+  //   props: {
+  //     session: await unstable_getServerSession(
+  //       context.req,
+  //       context.res,
+  //       authOptions
+  //     ),
+  //   },
+  // }
 }
